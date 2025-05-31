@@ -87,7 +87,7 @@ O **Gs Evacuação** é uma solução web inovadora que utiliza tecnologia e int
 
 ## Links Importantes
 
-- Repositório GitHub: https://github.com/seu-usuario/seu-projeto
+- Repositório GitHub: [https://github.com/seu-usuario/seu-projeto](https://github.com/HerbertSsousa/GlobalSolutionFinal_ok)
 - Vídeo Demonstração: https://youtu.be/mUyWfbqVL0w?si=B9vuy_vgvxr0wH5B
 - Vídeo Pitch: https://youtu.be/xJd8OjFIsug
 
