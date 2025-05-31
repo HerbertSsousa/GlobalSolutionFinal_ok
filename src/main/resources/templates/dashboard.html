@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Dashboard - Gs Evacuação</title>
+    <link rel="stylesheet" href="/css/styles.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
+    <style>
+        body {
+            background: linear-gradient(135deg, #4a90e2, #6a8ddb);
+            color: #f0f4f8;
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        h1, h4 {
+            font-weight: 700;
+            color: #edf2f7;
+        }
+        .risk-area-card {
+            background: #2b6cb0;
+            border-radius: 1rem;
+            color: #e6f0ff;
+            padding: 1.25rem;
+            box-shadow: 0 6px 12px rgba(43, 108, 176, 0.6);
+            transition: transform 0.3s ease;
+            cursor: default;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .risk-area-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 18px rgba(50, 120, 190, 0.8);
+        }
+        .risk-area-icon {
+            width: 40px;
+            height: 40px;
+            filter: drop-shadow(1px 1px 2px rgba(0,0,0,0.4));
+        }
+        .risk-area-content {
+            flex-grow: 1;
+        }
+        .risk-area-title {
+            font-size: 1.25rem;
+            font-weight: 800;
+            margin-bottom: 0.2rem;
+        }
+        .risk-area-count {
+            font-size: 1rem;
+            font-weight: 600;
+            opacity: 0.9;
+        }
+        #lista-regioes {
+            padding-left: 0;
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+        #lista-regioes li {
+            flex: 1 1 250px;
+            max-width: 320px;
+        }
+        .form-label small {
+            font-style: italic;
+            opacity: 0.85;
+        }
+        #formIA {
+            max-width: 600px;
+            margin-bottom: 2rem;
+        }
+        #respostaIA {
+            background: #1e293b;
+            border-radius: 1rem;
+            padding: 1rem;
+            font-family: Consolas, monospace;
+            font-size: 1rem;
+            min-height: 150px;
+            white-space: pre-wrap;
+            color: #d1d5db;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+            overflow-y: auto;
+        }
+        /* Navbar customizado */
+        .navbar-dark {
+            background-color: #1e40af;
+        }
+        .navbar-dark .navbar-nav .nav-link {
+            color: #e0e7ff;
+        }
+        .navbar-dark .navbar-nav .nav-link:hover {
+            color: #93c5fd;
+        }
+        button.btn-primary {
+            background-color: #2563eb;
+            border-color: #2563eb;
+            transition: background-color 0.3s ease;
+        }
+        button.btn-primary:hover {
+            background-color: #1d4ed8;
+            border-color: #1d4ed8;
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark mb-4">
+    <div class="container">
+        <a class="navbar-brand" href="/dashboard">Gs Evacuação</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Alternar navegação">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link" href="/dashboard">Alertas</a></li> <!-- redireciona para dashboard -->
+                <!-- Botão "Rotas Seguras" removido -->
+                <li class="nav-item"><a class="nav-link" href="/home">Sair</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Seletor de idioma -->
+<div class="container">
+    <div class="d-flex justify-content-end mb-3">
+        <a th:href="@{'/changeLang'(lang='pt')}" class="btn btn-sm btn-outline-light me-2" role="button" aria-label="Português">Português</a>
+        <a th:href="@{'/changeLang'(lang='en')}" class="btn btn-sm btn-outline-light" role="button" aria-label="English">English</a>
+    </div>
+</div>
+
+<div class="container">
+
+    <h1 class="mb-4">Áreas com Situações de Risco Ativas</h1>
+    <p class="lead mb-4">
+        Veja abaixo as regiões com mais alertas ativos no momento:
+    </p>
+
+    <ul id="lista-regioes">
+        <li class="risk-area-card">
+            <img src="https://cdn-icons-png.flaticon.com/512/564/564619.png" alt="Centro" class="risk-area-icon" />
+            <div class="risk-area-content">
+                <div class="risk-area-title">Centro</div>
+                <div class="risk-area-count">
+                    5 alertas ativos: <br />
+                    - Acidente de trânsito na Avenida Principal<br />
+                    - Alagamento na Rua das Flores<br />
+                    - Manifestação na Praça Central<br />
+                    - Queda de árvore na Rua 5<br />
+                    - Obra na Rua da Constituição
+                </div>
+            </div>
+        </li>
+        <li class="risk-area-card">
+            <img src="https://cdn-icons-png.flaticon.com/512/565/565547.png" alt="Zona Norte" class="risk-area-icon" />
+            <div class="risk-area-content">
+                <div class="risk-area-title">Zona Norte</div>
+                <div class="risk-area-count">
+                    3 alertas ativos: <br />
+                    - Risco de deslizamento na Rua das Acácias<br />
+                    - Alagamento no bairro Jardim Primavera<br />
+                    - Interrupção de energia na Avenida Central
+                </div>
+            </div>
+        </li>
+        <li class="risk-area-card">
+            <img src="https://cdn-icons-png.flaticon.com/512/565/565466.png" alt="Bairro das Flores" class="risk-area-icon" />
+            <div class="risk-area-content">
+                <div class="risk-area-title">Bairro das Flores</div>
+                <div class="risk-area-count">
+                    4 alertas ativos: <br />
+                    - Vazamento de gás na Rua das Rosas<br />
+                    - Queda de poste na Avenida das Orquídeas<br />
+                    - Obras na Rua dos Cravos<br />
+                    - Trânsito interrompido na Rua das Violetas
+                </div>
+            </div>
+        </li>
+        <li class="risk-area-card">
+            <img src="https://cdn-icons-png.flaticon.com/512/565/565491.png" alt="Região Industrial" class="risk-area-icon" />
+            <div class="risk-area-content">
+                <div class="risk-area-title">Região Industrial</div>
+                <div class="risk-area-count">
+                    2 alertas ativos: <br />
+                    - Vazamento químico na Avenida das Indústrias<br />
+                    - Interrupção temporária da linha de produção
+                </div>
+            </div>
+        </li>
+    </ul>
+
+    <h4>Solicite rotas seguras para sair da região</h4>
+    <form id="formIA" class="mb-4" autocomplete="off">
+        <div class="mb-3">
+            <label for="mensagemUsuario" class="form-label">
+                Digite sua mensagem conforme o exemplo:<br />
+                <small><em>me informe rotas seguras para que eu saia da região Centro</em></small><br />
+                <small><em>me informe rotas seguras para que eu saia da região Zona Norte</em></small><br />
+                <small><em>me informe rotas seguras para que eu saia da região Bairro das Flores</em></small>
+            </label>
+            <input type="text" id="mensagemUsuario" class="form-control" placeholder="me informe rotas seguras para que eu saia da região Centro" required />
+        </div>
+        <button type="submit" class="btn btn-primary">Solicitar Rotas Seguras</button>
+    </form>
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <h5 class="card-title">Resposta da IA - Rotas Seguras</h5>
+            <pre id="respostaIA">Nenhuma requisição feita ainda.</pre>
+        </div>
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    document.getElementById('formIA').addEventListener('submit', async function(event) {
+        event.preventDefault();
+
+        const inputMsg = document.getElementById('mensagemUsuario').value.trim();
+        if (!inputMsg) {
+            alert('Por favor, digite uma mensagem válida.');
+            return;
+        }
+
+        const respostaElem = document.getElementById('respostaIA');
+        respostaElem.textContent = 'Carregando recomendação da IA...';
+
+        try {
+            const res = await fetch('/api/groq/chat', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    messages: [
+                        { role: 'user', content: inputMsg }
+                    ]
+                })
+            });
+
+            if (!res.ok) {
+                throw new Error(`Erro HTTP: ${res.status}`);
+            }
+
+            const data = await res.text();
+
+            respostaElem.textContent = data || 'Nenhuma recomendação recebida.';
+        } catch (error) {
+            console.error('Erro na requisição IA:', error);
+            respostaElem.textContent = `Erro ao obter recomendação da IA: ${error.message}`;
+        }
+    });
+</script>
+
+</body>
+</html>
